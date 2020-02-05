@@ -1,0 +1,75 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion compilesdk_version
+    buildToolsVersion buildtools_version
+    defaultConfig {
+        applicationId "io.keepcoding.eh_ho"
+        minSdkVersion mindsdk_version
+        targetSdkVersion targetsdk_version
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary true
+
+        buildConfigField 'String', 'DiscourseDomain', DiscourseDomain
+        buildConfigField 'String', 'DiscourseApiKey', DiscourseApiKey
+        buildConfigField 'String', 'DiscourseAdmin', DiscourseAdmin
+    }
+    buildTypes {
+        release {
+
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    implementation "androidx.appcompat:appcompat:$androidxappcompat_version"
+    implementation "androidx.core:core-ktx:$androidxcore_version"
+    implementation "androidx.constraintlayout:constraintlayout:$androidxconstraintlayout_version"
+    implementation "androidx.legacy:legacy-support-v4:$androidxlegacysupport_version"
+    implementation "androidx.recyclerview:recyclerview:$androidxrecyclerview_version"
+    implementation "com.google.android.material:material:$androidmaterial_version"
+    implementation "androidx.cardview:cardview:$androidxcardview_version"
+    // Room
+    implementation "androidx.room:room-runtime:$androidxroom_version"
+    kapt "androidx.room:room-compiler:$androidxroom_version"
+    // Volley
+    implementation "com.android.volley:volley:$volley_version"
+    // Dagger 2
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    // Glide
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    // OkHttp
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
+    // Unit test
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "org.json:json:$json_version"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitokotlin_version"
+    // Instrumentation test
+    androidTestImplementation "androidx.test.ext:junit:$androidxjunit_version"
+    androidTestImplementation "androidx.test:rules:$androidxtestrules_version"
+    androidTestImplementation "org.mockito:mockito-android:$mockitoandroid_version"
+    androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitokotlin_version"
+    androidTestImplementation "android.arch.core:core-testing:$androidxarchcore_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidxespresso_version"
+}
