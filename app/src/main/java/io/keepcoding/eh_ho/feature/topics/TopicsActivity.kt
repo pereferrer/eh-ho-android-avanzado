@@ -1,8 +1,7 @@
-package io.keepcoding.eh_ho.topics
+package io.keepcoding.eh_ho.feature.topics
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -12,19 +11,19 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import io.keepcoding.eh_ho.*
-import io.keepcoding.eh_ho.Posts.EXTRA_TOPIC_ID
-import io.keepcoding.eh_ho.Posts.EXTRA_TOPIC_TITLE
-import io.keepcoding.eh_ho.Posts.PostsActivity
-import io.keepcoding.eh_ho.data.LatestPost
-import io.keepcoding.eh_ho.data.Topic
-import io.keepcoding.eh_ho.data.UserRepo
-import io.keepcoding.eh_ho.login.LoginActivity
-import io.keepcoding.eh_ho.topics.LatestPosts.LatestNewsFragment
-import kotlinx.android.synthetic.main.activity_topics.*
+import io.keepcoding.eh_ho.feature.posts.EXTRA_TOPIC_ID
+import io.keepcoding.eh_ho.feature.posts.EXTRA_TOPIC_TITLE
+import io.keepcoding.eh_ho.feature.posts.PostsActivity
+import io.keepcoding.eh_ho.domain.LatestPost
+import io.keepcoding.eh_ho.domain.Topic
+import io.keepcoding.eh_ho.data.repository.UserRepo
+import io.keepcoding.eh_ho.feature.login.LoginActivity
+import io.keepcoding.eh_ho.feature.topics.latestPosts.LatestNewsFragment
 
 const val TRANSACTION_CREATE_TOPIC = "create_topic"
 
-class TopicsActivity : AppCompatActivity(), TopicsFragment.TopicsInteractionListener, CreateTopicFragment.CreateTopicInteractionListener, NavigationView.OnNavigationItemSelectedListener,
+class TopicsActivity : AppCompatActivity(),
+    TopicsFragment.TopicsInteractionListener, CreateTopicFragment.CreateTopicInteractionListener, NavigationView.OnNavigationItemSelectedListener,
     LatestNewsFragment.LatestNewsInteractionListener {
 
 
@@ -38,7 +37,9 @@ class TopicsActivity : AppCompatActivity(), TopicsFragment.TopicsInteractionList
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .add(R.id.fragmentContainer, TopicsFragment())
+                .add(R.id.fragmentContainer,
+                    TopicsFragment()
+                )
                 .commit()
         }
 
@@ -86,21 +87,27 @@ class TopicsActivity : AppCompatActivity(), TopicsFragment.TopicsInteractionList
 
     override fun onGoToCreateTopic() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, CreateTopicFragment())
+            .replace(R.id.fragmentContainer,
+                CreateTopicFragment()
+            )
             .addToBackStack(TRANSACTION_CREATE_TOPIC)
             .commit()
     }
 
     private fun onGoToTopics() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, TopicsFragment())
+            .replace(R.id.fragmentContainer,
+                TopicsFragment()
+            )
             .addToBackStack(TRANSACTION_CREATE_TOPIC)
             .commit()
     }
 
     private fun onGoToLatestNews(){
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, LatestNewsFragment())
+            .replace(R.id.fragmentContainer,
+                LatestNewsFragment()
+            )
             .addToBackStack(TRANSACTION_CREATE_TOPIC)
             .commit()
     }

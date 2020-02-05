@@ -1,4 +1,4 @@
-package io.keepcoding.eh_ho.topics.LatestPosts
+package io.keepcoding.eh_ho.feature.topics.latestPosts
 
 import android.content.Context
 import android.os.Bundle
@@ -8,11 +8,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import io.keepcoding.eh_ho.R
-import io.keepcoding.eh_ho.data.LatestPost
-import io.keepcoding.eh_ho.data.PostsRepo
-import io.keepcoding.eh_ho.data.RequestError
-import io.keepcoding.eh_ho.data.Topic
-import kotlinx.android.synthetic.main.fragment_posts.*
+import io.keepcoding.eh_ho.domain.LatestPost
+import io.keepcoding.eh_ho.data.repository.PostsRepo
+import io.keepcoding.eh_ho.data.service.RequestError
 import kotlinx.android.synthetic.main.fragment_posts.parentLayout
 import kotlinx.android.synthetic.main.fragment_posts.swiperefreshPosts
 
@@ -33,9 +31,10 @@ class LatestNewsFragment : Fragment(){
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        adapter = LatestNewsAdapter{
-            goToPosts(it)
-        }
+        adapter =
+            LatestNewsAdapter {
+                goToPosts(it)
+            }
     }
 
     private fun goToPosts(it: LatestPost) {

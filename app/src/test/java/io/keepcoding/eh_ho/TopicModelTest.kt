@@ -1,6 +1,6 @@
 package io.keepcoding.eh_ho
 
-import io.keepcoding.eh_ho.data.Topic
+import io.keepcoding.eh_ho.domain.Topic
 import org.json.JSONObject
 import org.junit.Test
 import java.lang.IllegalArgumentException

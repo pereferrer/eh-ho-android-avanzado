@@ -50,7 +50,7 @@
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
             android:layout_marginBottom="56dp"
-            app:layout_behavior="io.keepcoding.eh_ho.topics.ScrollAwareFABBehavior"
+            app:layout_behavior="io.keepcoding.eh_ho.feature.topics.ScrollAwareFABBehavior"
             app:srcCompat="@drawable/ic_add" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

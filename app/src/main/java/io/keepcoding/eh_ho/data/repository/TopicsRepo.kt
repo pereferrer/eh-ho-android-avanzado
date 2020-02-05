@@ -1,11 +1,16 @@
-package io.keepcoding.eh_ho.data
+package io.keepcoding.eh_ho.data.repository
 
 import android.content.Context
-import android.util.Log
 import com.android.volley.NetworkError
 import com.android.volley.Request
 import com.android.volley.ServerError
 import io.keepcoding.eh_ho.R
+import io.keepcoding.eh_ho.data.service.ApiRequestQueue
+import io.keepcoding.eh_ho.data.service.ApiRoutes
+import io.keepcoding.eh_ho.data.service.RequestError
+import io.keepcoding.eh_ho.data.service.UserRequest
+import io.keepcoding.eh_ho.domain.CreateTopicModel
+import io.keepcoding.eh_ho.domain.Topic
 import org.json.JSONObject
 
 
@@ -24,18 +29,34 @@ object TopicsRepo {
             null,
             {
                 it?.let {
-                    onSuccess.invoke(Topic.parseTopics(it))
+                    onSuccess.invoke(
+                        Topic.parseTopics(
+                            it
+                        )
+                    )
                 }
 
                 if (it == null)
-                    onError.invoke(RequestError(messageResId = R.string.error_invalid_response))
+                    onError.invoke(
+                        RequestError(
+                            messageResId = R.string.error_invalid_response
+                        )
+                    )
             },
             {
                 it.printStackTrace()
                 if (it is NetworkError)
-                    onError.invoke(RequestError(messageResId = R.string.error_network))
+                    onError.invoke(
+                        RequestError(
+                            messageResId = R.string.error_network
+                        )
+                    )
                 else
-                    onError.invoke(RequestError(it))
+                    onError.invoke(
+                        RequestError(
+                            it
+                        )
+                    )
             })
 
         ApiRequestQueue.getRequestQueue(context)
@@ -60,7 +81,11 @@ object TopicsRepo {
                 }
 
                 if (it == null)
-                    onError.invoke(RequestError(messageResId = R.string.error_invalid_response))
+                    onError.invoke(
+                        RequestError(
+                            messageResId = R.string.error_invalid_response
+                        )
+                    )
             },
             {
                 it.printStackTrace()
@@ -75,12 +100,26 @@ object TopicsRepo {
                         errorMessage += "${errors[i]} "
                     }
 
-                    onError.invoke(RequestError(it, message = errorMessage))
+                    onError.invoke(
+                        RequestError(
+                            it,
+                            message = errorMessage
+                        )
+                    )
 
                 } else if (it is NetworkError)
-                    onError.invoke(RequestError(it, messageResId = R.string.error_network))
+                    onError.invoke(
+                        RequestError(
+                            it,
+                            messageResId = R.string.error_network
+                        )
+                    )
                 else
-                    onError.invoke(RequestError(it))
+                    onError.invoke(
+                        RequestError(
+                            it
+                        )
+                    )
             }
         )
 

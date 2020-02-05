@@ -1,4 +1,4 @@
-package io.keepcoding.eh_ho.data
+package io.keepcoding.eh_ho.domain
 
 import org.json.JSONObject
 import java.text.SimpleDateFormat
@@ -21,7 +21,10 @@ data class Topic(
 
 
             for (i in 0 until jsonTopics.length()) {
-                val parsedTopic = parseTopic(jsonTopics.getJSONObject(i))
+                val parsedTopic =
+                    parseTopic(
+                        jsonTopics.getJSONObject(i)
+                    )
                 topics.add(parsedTopic)
             }
 
@@ -59,19 +62,34 @@ data class Topic(
         val diff = current - date.time
 
         val years = diff / YEAR_MILLIS
-        if (years > 0) return TimeOffset(years.toInt(), Calendar.YEAR)
+        if (years > 0) return TimeOffset(
+            years.toInt(),
+            Calendar.YEAR
+        )
 
         val month = diff / MONTH_MILLIS
-        if (month > 0) return TimeOffset(month.toInt(), Calendar.MONTH)
+        if (month > 0) return TimeOffset(
+            month.toInt(),
+            Calendar.MONTH
+        )
 
         val days = diff / DAY_MILLIS
-        if (days > 0) return TimeOffset(days.toInt(), Calendar.DAY_OF_MONTH)
+        if (days > 0) return TimeOffset(
+            days.toInt(),
+            Calendar.DAY_OF_MONTH
+        )
 
         val hours = diff / HOUR_MILLIS
-        if (hours > 0) return TimeOffset(hours.toInt(), Calendar.HOUR)
+        if (hours > 0) return TimeOffset(
+            hours.toInt(),
+            Calendar.HOUR
+        )
 
         val minutes = diff / MINUTES_MILLIS
-        if (minutes > 0) return TimeOffset(minutes.toInt(), Calendar.MINUTE)
+        if (minutes > 0) return TimeOffset(
+            minutes.toInt(),
+            Calendar.MINUTE
+        )
 
         return TimeOffset(0, Calendar.MINUTE)
     }
@@ -93,7 +111,10 @@ data class Post(
 
 
             for (i in 0 until jsonPosts.length()) {
-                val parsedPost = parsePost(jsonPosts.getJSONObject(i))
+                val parsedPost =
+                    parsePost(
+                        jsonPosts.getJSONObject(i)
+                    )
                 posts.add(parsedPost)
             }
 
@@ -124,19 +145,34 @@ data class Post(
         val diff = current - date.time
 
         val years = diff / Topic.YEAR_MILLIS
-        if (years > 0) return TimeOffset(years.toInt(), Calendar.YEAR)
+        if (years > 0) return TimeOffset(
+            years.toInt(),
+            Calendar.YEAR
+        )
 
         val month = diff / Topic.MONTH_MILLIS
-        if (month > 0) return TimeOffset(month.toInt(), Calendar.MONTH)
+        if (month > 0) return TimeOffset(
+            month.toInt(),
+            Calendar.MONTH
+        )
 
         val days = diff / Topic.DAY_MILLIS
-        if (days > 0) return TimeOffset(days.toInt(), Calendar.DAY_OF_MONTH)
+        if (days > 0) return TimeOffset(
+            days.toInt(),
+            Calendar.DAY_OF_MONTH
+        )
 
         val hours = diff / Topic.HOUR_MILLIS
-        if (hours > 0) return TimeOffset(hours.toInt(), Calendar.HOUR)
+        if (hours > 0) return TimeOffset(
+            hours.toInt(),
+            Calendar.HOUR
+        )
 
         val minutes = diff / Topic.MINUTES_MILLIS
-        if (minutes > 0) return TimeOffset(minutes.toInt(), Calendar.MINUTE)
+        if (minutes > 0) return TimeOffset(
+            minutes.toInt(),
+            Calendar.MINUTE
+        )
 
         return TimeOffset(0, Calendar.MINUTE)
     }
@@ -163,7 +199,10 @@ data class LatestPost(
 
 
             for (i in 0 until jsonPosts.length()) {
-                val parsedPost = parsePost(jsonPosts.getJSONObject(i))
+                val parsedPost =
+                    parsePost(
+                        jsonPosts.getJSONObject(i)
+                    )
                 posts.add(parsedPost)
             }
 
@@ -202,20 +241,38 @@ data class LatestPost(
         val diff = current - date.time
 
         val years = diff / Topic.YEAR_MILLIS
-        if (years > 0) return TimeOffset(years.toInt(), Calendar.YEAR)
+        if (years > 0) return TimeOffset(
+            years.toInt(),
+            Calendar.YEAR
+        )
 
         val month = diff / Topic.MONTH_MILLIS
-        if (month > 0) return TimeOffset(month.toInt(), Calendar.MONTH)
+        if (month > 0) return TimeOffset(
+            month.toInt(),
+            Calendar.MONTH
+        )
 
         val days = diff / Topic.DAY_MILLIS
-        if (days > 0) return TimeOffset(days.toInt(), Calendar.DAY_OF_MONTH)
+        if (days > 0) return TimeOffset(
+            days.toInt(),
+            Calendar.DAY_OF_MONTH
+        )
 
         val hours = diff / Topic.HOUR_MILLIS
-        if (hours > 0) return TimeOffset(hours.toInt(), Calendar.HOUR)
+        if (hours > 0) return TimeOffset(
+            hours.toInt(),
+            Calendar.HOUR
+        )
 
         val minutes = diff / Topic.MINUTES_MILLIS
-        if (minutes > 0) return TimeOffset(minutes.toInt(), Calendar.MINUTE)
+        if (minutes > 0) return TimeOffset(
+            minutes.toInt(),
+            Calendar.MINUTE
+        )
 
-        return TimeOffset(0, Calendar.MINUTE)
+        return TimeOffset(
+            0,
+            Calendar.MINUTE
+        )
     }
 }

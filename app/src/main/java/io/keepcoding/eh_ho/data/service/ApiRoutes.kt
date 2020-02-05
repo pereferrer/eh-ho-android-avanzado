@@ -1,4 +1,4 @@
-package io.keepcoding.eh_ho.data
+package io.keepcoding.eh_ho.data.service
 
 import android.net.Uri
 import io.keepcoding.eh_ho.BuildConfig

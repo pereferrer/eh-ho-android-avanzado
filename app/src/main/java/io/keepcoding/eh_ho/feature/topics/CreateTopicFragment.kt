@@ -1,15 +1,15 @@
-package io.keepcoding.eh_ho.topics
+package io.keepcoding.eh_ho.feature.topics
 
 import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
-import io.keepcoding.eh_ho.LoadingDialogFragment
+import io.keepcoding.eh_ho.feature.LoadingDialogFragment
 import io.keepcoding.eh_ho.R
-import io.keepcoding.eh_ho.data.CreateTopicModel
-import io.keepcoding.eh_ho.data.RequestError
-import io.keepcoding.eh_ho.data.TopicsRepo
+import io.keepcoding.eh_ho.domain.CreateTopicModel
+import io.keepcoding.eh_ho.data.service.RequestError
+import io.keepcoding.eh_ho.data.repository.TopicsRepo
 import kotlinx.android.synthetic.main.fragment_create_topic.*
 
 const val TAG_LOADING_DIALOG = "loading_dialog"
@@ -87,7 +87,9 @@ class CreateTopicFragment : Fragment() {
 
     private fun enableLoadingDialog(enabled: Boolean) {
         if (enabled)
-            loadingDialog.show(childFragmentManager, TAG_LOADING_DIALOG)
+            loadingDialog.show(childFragmentManager,
+                TAG_LOADING_DIALOG
+            )
         else
             loadingDialog.dismiss()
     }

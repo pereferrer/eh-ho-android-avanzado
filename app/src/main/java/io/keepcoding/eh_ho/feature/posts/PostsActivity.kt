@@ -1,24 +1,25 @@
-package io.keepcoding.eh_ho.Posts
+package io.keepcoding.eh_ho.feature.posts
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import io.keepcoding.eh_ho.R
-import io.keepcoding.eh_ho.data.UserRepo
-import io.keepcoding.eh_ho.login.LoginActivity
+import io.keepcoding.eh_ho.data.repository.UserRepo
+import io.keepcoding.eh_ho.feature.login.LoginActivity
 import java.lang.IllegalArgumentException
 
 const val EXTRA_TOPIC_ID = "topic_id"
 const val EXTRA_TOPIC_TITLE = "topic_title"
 const val TRANSACTION_CREATE_Post = "create_post"
 
-class PostsActivity : AppCompatActivity(), PostsFragment.PostsInteractionListener,
+class PostsActivity : AppCompatActivity(),
+    PostsFragment.PostsInteractionListener,
     CreatePostFragment.CreatePostInteractionListener {
 
     var topicId = ""
     var topicTitle = ""
-    var postsFragment: PostsFragment? = PostsFragment()
+    var postsFragment: PostsFragment? =
+        PostsFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +64,8 @@ class PostsActivity : AppCompatActivity(), PostsFragment.PostsInteractionListene
         val bundle = Bundle()
         bundle.putString("idTopic",idTopic)
         bundle.putString(EXTRA_TOPIC_TITLE,topicTitle)
-        val postsFragment = CreatePostFragment()
+        val postsFragment =
+            CreatePostFragment()
         postsFragment.arguments = bundle
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, postsFragment)

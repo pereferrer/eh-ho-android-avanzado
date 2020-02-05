@@ -1,12 +1,11 @@
-package io.keepcoding.eh_ho.topics.LatestPosts
+package io.keepcoding.eh_ho.feature.topics.latestPosts
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.keepcoding.eh_ho.R
-import io.keepcoding.eh_ho.data.LatestPost
-import io.keepcoding.eh_ho.data.Post
+import io.keepcoding.eh_ho.domain.LatestPost
 import kotlinx.android.synthetic.main.item_post.view.*
 import kotlinx.android.synthetic.main.item_topic.view.labelDate
 import java.util.*

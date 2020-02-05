@@ -1,14 +1,15 @@
-package io.keepcoding.eh_ho.Posts
+package io.keepcoding.eh_ho.feature.posts
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
-import io.keepcoding.eh_ho.LoadingDialogFragment
+import io.keepcoding.eh_ho.feature.LoadingDialogFragment
 import io.keepcoding.eh_ho.R
-import io.keepcoding.eh_ho.data.*
+import io.keepcoding.eh_ho.data.repository.PostsRepo
+import io.keepcoding.eh_ho.data.service.RequestError
+import io.keepcoding.eh_ho.domain.CreatePostModel
 import kotlinx.android.synthetic.main.fragment_create_post.*
 import kotlinx.android.synthetic.main.fragment_create_topic.parentLayout
 
@@ -99,7 +100,9 @@ class CreatePostFragment : Fragment() {
 
     private fun enableLoadingDialog(enabled: Boolean) {
         if (enabled)
-            loadingDialog.show(childFragmentManager, TAG_LOADING_DIALOG)
+            loadingDialog.show(childFragmentManager,
+                TAG_LOADING_DIALOG
+            )
         else
             loadingDialog.dismiss()
     }

@@ -1,64 +1,65 @@
-package io.keepcoding.eh_ho.Posts
+package io.keepcoding.eh_ho.feature.topics
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.keepcoding.eh_ho.R
-import io.keepcoding.eh_ho.data.Post
-import kotlinx.android.synthetic.main.item_post.view.*
-import kotlinx.android.synthetic.main.item_topic.view.labelDate
+import io.keepcoding.eh_ho.domain.Topic
+import kotlinx.android.synthetic.main.item_topic.view.*
 import java.util.*
 
-class PostsAdapter(
-    val postClickListener: ((Post) -> Unit)? = null
-) : RecyclerView.Adapter<PostsAdapter.PostHolder>() {
-    private val posts = mutableListOf<Post>()
+class TopicsAdapter(
+    val topicClickListener: ((Topic) -> Unit)? = null
+) : RecyclerView.Adapter<TopicsAdapter.TopicHolder>() {
+    private val topics = mutableListOf<Topic>()
 
     private val listener: ((View) -> Unit) = {
-        val post = it.tag as Post
-        postClickListener?.invoke(post)
+        val topic = it.tag as Topic
+        topicClickListener?.invoke(topic)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopicHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_topic, parent, false)
 
-        return PostHolder(view)
+
+        return TopicHolder(view)
     }
 
     override fun getItemCount(): Int {
-        return posts.size
+        return topics.size
     }
 
-    override fun onBindViewHolder(holder: PostHolder, position: Int) {
-        val post = posts[position]
-        holder.post = post
+    override fun onBindViewHolder(holder: TopicHolder, position: Int) {
+        val topic = topics[position]
+        holder.topic = topic
         holder.itemView.setOnClickListener(listener)
     }
 
-    fun setPosts(posts: List<Post>) {
-        this.posts.clear()
-        this.posts.addAll(posts)
+    fun setTopics(topics: List<Topic>) {
+        this.topics.clear()
+        this.topics.addAll(topics)
         notifyDataSetChanged()
     }
 
-    inner class PostHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var post: Post? = null
+    inner class TopicHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var topic: Topic? = null
             set(value) {
                 field = value
 
                 with(itemView) {
                     tag = field
                     field?.let {
-                        labelAuthor.text = it.username
-                        labelPostContent.text = it.cooked
+                        labelTitle.text = it.title
+                        labelPosts.text = it.posts.toString()
+                        labelViews.text = it.views.toString()
                         setTimeOffset(it.getTimeOffset())
                     }
                 }
             }
 
-        private fun setTimeOffset(timeOffset: Post.TimeOffset) {
+        private fun setTimeOffset(timeOffset: Topic.TimeOffset) {
             val quantityString = when (timeOffset.unit) {
                 Calendar.YEAR -> R.plurals.years
                 Calendar.MONTH -> R.plurals.months

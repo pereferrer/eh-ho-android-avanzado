@@ -1,14 +1,20 @@
-package io.keepcoding.eh_ho.data
+package io.keepcoding.eh_ho.data.repository
 
 
 import android.content.Context
-import android.util.Log
 import com.android.volley.NetworkError
 import com.android.volley.Request
 import com.android.volley.ServerError
 import io.keepcoding.eh_ho.Database.LatestNewEntity
 import io.keepcoding.eh_ho.Database.LatestNewsDatabase
 import io.keepcoding.eh_ho.R
+import io.keepcoding.eh_ho.data.service.ApiRequestQueue
+import io.keepcoding.eh_ho.data.service.ApiRoutes
+import io.keepcoding.eh_ho.data.service.RequestError
+import io.keepcoding.eh_ho.data.service.UserRequest
+import io.keepcoding.eh_ho.domain.CreatePostModel
+import io.keepcoding.eh_ho.domain.LatestPost
+import io.keepcoding.eh_ho.domain.Post
 import org.json.JSONObject
 import kotlin.concurrent.thread
 
@@ -31,18 +37,34 @@ object PostsRepo {
             null,
             {
                 it?.let {
-                    onSuccess.invoke(Post.parsePosts(it))
+                    onSuccess.invoke(
+                        Post.parsePosts(
+                            it
+                        )
+                    )
                 }
 
                 if (it == null)
-                    onError.invoke(RequestError(messageResId = R.string.error_invalid_response))
+                    onError.invoke(
+                        RequestError(
+                            messageResId = R.string.error_invalid_response
+                        )
+                    )
             },
             {
                 it.printStackTrace()
                 if (it is NetworkError)
-                    onError.invoke(RequestError(messageResId = R.string.error_network))
+                    onError.invoke(
+                        RequestError(
+                            messageResId = R.string.error_network
+                        )
+                    )
                 else
-                    onError.invoke(RequestError(it))
+                    onError.invoke(
+                        RequestError(
+                            it
+                        )
+                    )
             })
 
         ApiRequestQueue.getRequestQueue(context)
@@ -50,8 +72,8 @@ object PostsRepo {
     }
 
     fun getPostsAcrossTopics(context: Context,
-                 onSuccess:(List<LatestPost>) ->Unit,
-                 onError:(RequestError)->Unit)
+                             onSuccess:(List<LatestPost>) ->Unit,
+                             onError:(RequestError)->Unit)
     {
 
         val username = UserRepo.getUsername(context)
@@ -62,10 +84,19 @@ object PostsRepo {
             null,
             {
                 it?.let {
-                    onSuccess.invoke(LatestPost.parsePosts(it))
+                    onSuccess.invoke(
+                        LatestPost.parsePosts(
+                            it
+                        )
+                    )
 
                     thread {
-                        db.latestNewDao().insertAll(LatestPost.parsePosts(it).toEntity())
+                        db.latestNewDao()
+                            .insertAll(
+                                LatestPost.parsePosts(
+                                    it
+                                ).toEntity()
+                            )
                     }
                 }
 
@@ -73,14 +104,26 @@ object PostsRepo {
 
 
                 if (it == null)
-                    onError.invoke(RequestError(messageResId = R.string.error_invalid_response))
+                    onError.invoke(
+                        RequestError(
+                            messageResId = R.string.error_invalid_response
+                        )
+                    )
             },
             {
                 it.printStackTrace()
                 if (it is NetworkError)
-                    onError.invoke(RequestError(messageResId = R.string.error_network))
+                    onError.invoke(
+                        RequestError(
+                            messageResId = R.string.error_network
+                        )
+                    )
                 else
-                    onError.invoke(RequestError(it))
+                    onError.invoke(
+                        RequestError(
+                            it
+                        )
+                    )
             })
 
         ApiRequestQueue.getRequestQueue(context)
@@ -105,7 +148,11 @@ object PostsRepo {
                 }
 
                 if (it == null)
-                    onError.invoke(RequestError(messageResId = R.string.error_invalid_response))
+                    onError.invoke(
+                        RequestError(
+                            messageResId = R.string.error_invalid_response
+                        )
+                    )
             },
             {
                 it.printStackTrace()
@@ -120,12 +167,26 @@ object PostsRepo {
                         errorMessage += "${errors[i]} "
                     }
 
-                    onError.invoke(RequestError(it, message = errorMessage))
+                    onError.invoke(
+                        RequestError(
+                            it,
+                            message = errorMessage
+                        )
+                    )
 
                 } else if (it is NetworkError)
-                    onError.invoke(RequestError(it, messageResId = R.string.error_network))
+                    onError.invoke(
+                        RequestError(
+                            it,
+                            messageResId = R.string.error_network
+                        )
+                    )
                 else
-                    onError.invoke(RequestError(it))
+                    onError.invoke(
+                        RequestError(
+                            it
+                        )
+                    )
             }
         )
 

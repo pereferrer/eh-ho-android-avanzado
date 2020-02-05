@@ -1,11 +1,10 @@
-package io.keepcoding.eh_ho.topics
+package io.keepcoding.eh_ho.feature.topics
 
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.AttributeSet
-import android.util.Log
 import android.view.*
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
@@ -15,9 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import io.keepcoding.eh_ho.R
-import io.keepcoding.eh_ho.data.RequestError
-import io.keepcoding.eh_ho.data.Topic
-import io.keepcoding.eh_ho.data.TopicsRepo
+import io.keepcoding.eh_ho.data.service.RequestError
+import io.keepcoding.eh_ho.domain.Topic
+import io.keepcoding.eh_ho.data.repository.TopicsRepo
 import kotlinx.android.synthetic.main.fragment_topics.*
 import kotlinx.android.synthetic.main.view_retry.*
 
@@ -36,7 +35,7 @@ class TopicsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        adapter = TopicsAdapter{
+        adapter = TopicsAdapter {
             goToPosts(it)
         }
     }

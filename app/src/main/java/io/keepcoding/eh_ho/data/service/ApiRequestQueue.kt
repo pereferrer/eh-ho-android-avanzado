@@ -1,4 +1,4 @@
-package io.keepcoding.eh_ho.data
+package io.keepcoding.eh_ho.data.service
 
 import android.content.Context
 import com.android.volley.RequestQueue

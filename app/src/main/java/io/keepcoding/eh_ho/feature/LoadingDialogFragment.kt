@@ -1,10 +1,11 @@
-package io.keepcoding.eh_ho
+package io.keepcoding.eh_ho.feature
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import io.keepcoding.eh_ho.R
 import kotlinx.android.synthetic.main.dialog_loading.view.*
 
 const val ARG_MESSAGE = "message"
@@ -22,7 +23,9 @@ class LoadingDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val message = arguments?.getString(ARG_MESSAGE) ?: getString(R.string.label_loading)
+        val message = arguments?.getString(ARG_MESSAGE) ?: getString(
+            R.string.label_loading
+        )
         view.labelMessage.text = message
     }
 

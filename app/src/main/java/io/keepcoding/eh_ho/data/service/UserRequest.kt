@@ -1,4 +1,4 @@
-package io.keepcoding.eh_ho.data
+package io.keepcoding.eh_ho.data.service
 
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest

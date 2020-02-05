@@ -1,4 +1,4 @@
-package io.keepcoding.eh_ho.Posts
+package io.keepcoding.eh_ho.feature.posts
 
 import android.content.Context
 import android.os.Bundle
@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import io.keepcoding.eh_ho.R
-import io.keepcoding.eh_ho.data.PostsRepo
-import io.keepcoding.eh_ho.data.RequestError
+import io.keepcoding.eh_ho.data.repository.PostsRepo
+import io.keepcoding.eh_ho.data.service.RequestError
 import kotlinx.android.synthetic.main.fragment_posts.*
 import kotlinx.android.synthetic.main.fragment_posts.parentLayout
 
@@ -29,7 +29,7 @@ class PostsFragment : Fragment(){
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        adapter = PostsAdapter{
+        adapter = PostsAdapter {
         }
     }
 
