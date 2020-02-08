@@ -180,8 +180,6 @@ data class Post(
 
 data class LatestPost(
     val id: String = UUID.randomUUID().toString(),
-    val username: String,
-    val cooked: String,
     val date: Date = Date(),
     val topic_title: String,
     val topic_slug: String,
@@ -219,8 +217,6 @@ data class LatestPost(
 
             return LatestPost(
                 jsonObject.getInt("topic_id").toString(),
-                jsonObject.getString("username"),
-                jsonObject.getString("cooked"),
                 dateFormatted,
                 jsonObject.getString("topic_title"),
                 jsonObject.getString("topic_slug"),

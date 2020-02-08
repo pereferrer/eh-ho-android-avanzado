@@ -14,14 +14,15 @@ import io.keepcoding.eh_ho.domain.Topic
 import org.json.JSONObject
 
 
-object TopicsRepo {
+object TopicsRepo: TopicsRepository {
 
-    fun getTopics(
-        context: Context,
+    lateinit var ctx: Context
+
+    override fun getTopics(
         onSuccess: (List<Topic>) -> Unit,
         onError: (RequestError) -> Unit
     ) {
-        val username = UserRepo.getUsername(context)
+        val username = UserRepo.getUsername(ctx)
         val request = UserRequest(
             username,
             Request.Method.GET,
@@ -59,17 +60,16 @@ object TopicsRepo {
                     )
             })
 
-        ApiRequestQueue.getRequestQueue(context)
+        ApiRequestQueue.getRequestQueue(ctx)
             .add(request)
     }
 
-    fun createTopic(
-        context: Context,
+    override fun createTopic(
         model: CreateTopicModel,
         onSuccess: (CreateTopicModel) -> Unit,
         onError: (RequestError) -> Unit
     ) {
-        val username = UserRepo.getUsername(context)
+        val username = UserRepo.getUsername(ctx)
         val request = UserRequest(
             username,
             Request.Method.POST,
@@ -123,7 +123,7 @@ object TopicsRepo {
             }
         )
 
-        ApiRequestQueue.getRequestQueue(context)
+        ApiRequestQueue.getRequestQueue(ctx)
             .add(request)
     }
 }

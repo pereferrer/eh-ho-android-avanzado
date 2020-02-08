@@ -19,6 +19,12 @@ android {
         buildConfigField 'String', 'DiscourseDomain', DiscourseDomain
         buildConfigField 'String', 'DiscourseApiKey', DiscourseApiKey
         buildConfigField 'String', 'DiscourseAdmin', DiscourseAdmin
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
     buildTypes {
         release {

@@ -10,7 +10,7 @@ import io.keepcoding.eh_ho.data.service.RequestError
 import io.keepcoding.eh_ho.domain.SignInModel
 import io.keepcoding.eh_ho.domain.SignUpModel
 import io.keepcoding.eh_ho.data.repository.UserRepo
-import io.keepcoding.eh_ho.feature.topics.TopicsActivity
+import io.keepcoding.eh_ho.feature.topics.view.ui.TopicsActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity(),
@@ -52,7 +52,7 @@ class LoginActivity : AppCompatActivity(),
 
     override fun onSignIn(signInModel: SignInModel) {
         enableLoading(true)
-        UserRepo.signIn(this, signInModel,
+        UserRepo.signIn(signInModel,
             {
                 enableLoading(false)
                 launchTopicsActivity()

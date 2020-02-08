@@ -1,7 +1,8 @@
-package io.keepcoding.eh_ho.feature.topics.latestPosts
+package io.keepcoding.eh_ho.feature.topics.latestPosts.view.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -11,10 +12,13 @@ import io.keepcoding.eh_ho.R
 import io.keepcoding.eh_ho.domain.LatestPost
 import io.keepcoding.eh_ho.data.repository.PostsRepo
 import io.keepcoding.eh_ho.data.service.RequestError
+import io.keepcoding.eh_ho.feature.topics.latestPosts.view.adapter.LatestNewsAdapter
 import kotlinx.android.synthetic.main.fragment_posts.parentLayout
 import kotlinx.android.synthetic.main.fragment_posts.swiperefreshPosts
 
 import kotlinx.android.synthetic.main.latest_news.*
+
+const val LATEST_NEWS_FRAGMENT_TAG = "LATEST_NEWS_FRAGMENT"
 
 
 class LatestNewsFragment : Fragment(){
@@ -62,14 +66,14 @@ class LatestNewsFragment : Fragment(){
         listLatestNews.adapter = adapter
 
         swiperefreshPosts.setOnRefreshListener {
-            loadLatestNews()
+            listener?.onRetryLatestNewsButtonClicked()
             swiperefreshPosts.isRefreshing = false   // reset the SwipeRefreshLayout (stop the loading spinner)
         }
     }
 
     override fun onResume() {
         super.onResume()
-        loadLatestNews()
+        listener?.onRetryLatestNewsButtonClicked()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -80,22 +84,14 @@ class LatestNewsFragment : Fragment(){
         return super.onOptionsItemSelected(item)
     }
 
-    fun loadLatestNews() {
-        enableLoading(true)
-        context?.let {
-            PostsRepo.getPostsAcrossTopics(it,//Todo pasar identificador topic
-                {
-                    enableLoading(false)
-                    adapter.setLatestNews(it)
-                },
-                {
-                    enableLoading(false)
-                    handleRequestError(it)
-                })
-        }
+    fun loadLatestNews(latestNewsList: List<LatestPost>) {
+        enableLoading(false)
+        adapter.setLatestNews(posts = latestNewsList)
     }
 
-    private fun enableLoading(enabled: Boolean) {
+    fun enableLoading(enabled: Boolean) {
+        Log.d("viewRetryLatest_news","viewRetryLatest_news")
+
         viewRetryLatest_news.visibility = View.INVISIBLE
 
         if (enabled) {
@@ -107,7 +103,7 @@ class LatestNewsFragment : Fragment(){
         }
     }
 
-    private fun handleRequestError(requestError: RequestError) {
+    fun handleRequestError(requestError: RequestError) {
         listLatestNews.visibility = View.INVISIBLE
         viewRetryLatest_news.visibility = View.VISIBLE
 
@@ -125,5 +121,6 @@ class LatestNewsFragment : Fragment(){
     interface LatestNewsInteractionListener {
         fun onLogOut()
         fun onPostSelected(latestPost: LatestPost)
+        fun onRetryLatestNewsButtonClicked()
     }
 }

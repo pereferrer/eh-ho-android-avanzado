@@ -12,14 +12,16 @@ import io.keepcoding.eh_ho.data.service.ApiRoutes
 import io.keepcoding.eh_ho.data.service.RequestError
 import io.keepcoding.eh_ho.domain.SignInModel
 import io.keepcoding.eh_ho.domain.SignUpModel
+import retrofit2.Retrofit
 
 const val PREFERENCES_SESSION = "session"
 const val PREFERENCES_SESSION_USERNAME = "username"
 
-object UserRepo {
+object UserRepo{
+
+    lateinit var ctx: Context
 
     fun signIn(
-        context: Context,
         signInModel: SignInModel,
         onSuccess: (SignInModel) -> Unit,
         onError: (RequestError) -> Unit
@@ -31,7 +33,7 @@ object UserRepo {
                 null,
                 { response ->
                     saveSession(
-                        context,
+                        ctx,
                         signInModel.username
                     )
                     onSuccess.invoke(signInModel)
@@ -61,7 +63,7 @@ object UserRepo {
                         )
                 })
 
-        ApiRequestQueue.getRequestQueue(context)
+        ApiRequestQueue.getRequestQueue(ctx)
             .add(request)
     }
 

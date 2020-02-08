@@ -28,7 +28,7 @@ interface LatestNewDao {
     fun delete(LatestNew: LatestNewEntity)
 }
 
-@Database(entities = [LatestNewEntity::class], version = 1)
+@Database(entities = [LatestNewEntity::class], version = 2)
 abstract class LatestNewsDatabase : RoomDatabase() {
     abstract fun latestNewDao(): LatestNewDao
 }

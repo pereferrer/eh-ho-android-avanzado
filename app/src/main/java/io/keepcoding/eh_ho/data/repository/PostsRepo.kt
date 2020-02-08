@@ -18,7 +18,7 @@ import io.keepcoding.eh_ho.domain.Post
 import org.json.JSONObject
 import kotlin.concurrent.thread
 
-object PostsRepo {
+object PostsRepo : PostsRepository{
 
     lateinit var db: LatestNewsDatabase
     lateinit var ctx: Context
@@ -71,12 +71,11 @@ object PostsRepo {
             .add(request)
     }
 
-    fun getPostsAcrossTopics(context: Context,
-                             onSuccess:(List<LatestPost>) ->Unit,
+    override fun getPostsAcrossTopics(onSuccess:(List<LatestPost>) ->Unit,
                              onError:(RequestError)->Unit)
     {
 
-        val username = UserRepo.getUsername(context)
+        val username = UserRepo.getUsername(ctx)
         val request = UserRequest(
             username,
             Request.Method.GET,
@@ -126,7 +125,7 @@ object PostsRepo {
                     )
             })
 
-        ApiRequestQueue.getRequestQueue(context)
+        ApiRequestQueue.getRequestQueue(ctx)
             .add(request)
     }
 
@@ -194,6 +193,19 @@ object PostsRepo {
             .add(request)
     }
 }
+
+
+private fun List<LatestNewEntity>.toModel(): List<LatestPost> = map { it.toModel() }
+
+private fun LatestNewEntity.toModel(): LatestPost = LatestPost(
+
+    id = topicId,
+    topic_title = title,
+    topic_slug = slug,
+    post_number = posts,
+    score = score //Todo falta la fecha create at
+)
+
 
 private fun List<LatestPost>.toEntity(): List<LatestNewEntity> = map { it.toEntity() }
 

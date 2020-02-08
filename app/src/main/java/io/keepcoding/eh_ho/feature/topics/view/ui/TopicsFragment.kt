@@ -1,4 +1,4 @@
-package io.keepcoding.eh_ho.feature.topics
+package io.keepcoding.eh_ho.feature.topics.view.ui
 
 
 import android.annotation.SuppressLint
@@ -17,8 +17,12 @@ import io.keepcoding.eh_ho.R
 import io.keepcoding.eh_ho.data.service.RequestError
 import io.keepcoding.eh_ho.domain.Topic
 import io.keepcoding.eh_ho.data.repository.TopicsRepo
+import io.keepcoding.eh_ho.feature.topics.view.adapter.TopicsAdapter
 import kotlinx.android.synthetic.main.fragment_topics.*
 import kotlinx.android.synthetic.main.view_retry.*
+
+
+const val TOPICS_FRAGMENT_TAG = "TOPICS_FRAGMENT"
 
 class TopicsFragment : Fragment() {
 
@@ -40,11 +44,6 @@ class TopicsFragment : Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_topics, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,9 +51,13 @@ class TopicsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_topics, container, false)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_topics, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         listTopics.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         listTopics.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
@@ -65,48 +68,31 @@ class TopicsFragment : Fragment() {
         }
 
         buttonRetry.setOnClickListener {
-            loadTopics()
+            listener?.onRetryButtonClicked()
         }
 
         swiperefreshTopics.setOnRefreshListener {
-            loadTopics()
+            listener?.onRetryButtonClicked()
             swiperefreshTopics.isRefreshing = false   // reset the SwipeRefreshLayout (stop the loading spinner)
         }
     }
 
     override fun onResume() {
         super.onResume()
-        loadTopics()
+        listener?.onTopicsFragmentResumed()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_log_out -> listener?.onLogOut()
-
         }
-
         return super.onOptionsItemSelected(item)
     }
 
-    private fun loadTopics() {
-        enableLoading(true)
 
-        context?.let {
-            TopicsRepo.getTopics(it,
-                {
-                    enableLoading(false)
-                    adapter.setTopics(it)
-                },
-                {
-                    enableLoading(false)
-                    handleRequestError(it)
-                })
-        }
-    }
 
-    private fun enableLoading(enabled: Boolean) {
+    fun enableLoading(enabled: Boolean) {
         viewRetry.visibility = View.INVISIBLE
-
         if (enabled) {
             listTopics.visibility = View.INVISIBLE
             buttonCreate.hide()
@@ -118,7 +104,14 @@ class TopicsFragment : Fragment() {
         }
     }
 
-    private fun handleRequestError(requestError: RequestError) {
+
+    fun loadTopicList(topicList: List<Topic>) {
+        enableLoading(false)
+        adapter.setTopics(topics = topicList)
+    }
+
+
+    fun handleRequestError(requestError: RequestError) {
         listTopics.visibility = View.INVISIBLE
         viewRetry.visibility = View.VISIBLE
 
@@ -141,6 +134,8 @@ class TopicsFragment : Fragment() {
     }
 
     interface TopicsInteractionListener {
+        fun onRetryButtonClicked()
+        fun onTopicsFragmentResumed()
         fun onTopicSelected(topic: Topic)
         fun onGoToCreateTopic()
         fun onLogOut()
