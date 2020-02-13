@@ -51,7 +51,7 @@ class CreateTopicFragment : Fragment() {
             R.id.action_send -> listener?.onCreateTopicOptionClicked(
                 model = CreateTopicModel(
                     title = inputTitle.text.toString(),
-                    content = inputContent.text.toString()
+                    raw = inputContent.text.toString()
                 )
             )
         }

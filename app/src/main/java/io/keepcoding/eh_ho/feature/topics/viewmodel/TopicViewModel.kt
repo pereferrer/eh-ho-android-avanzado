@@ -10,13 +10,11 @@
     import io.keepcoding.eh_ho.data.repository.TopicsRepository
     import io.keepcoding.eh_ho.data.repository.UserRepo
     import io.keepcoding.eh_ho.data.service.RequestError
-    import io.keepcoding.eh_ho.domain.CreateTopicModel
-    import io.keepcoding.eh_ho.domain.LatestPost
-    import io.keepcoding.eh_ho.domain.SignInModel
-    import io.keepcoding.eh_ho.domain.Topic
+    import io.keepcoding.eh_ho.domain.*
     import io.keepcoding.eh_ho.feature.topics.view.state.TopicManagementState
     import kotlinx.android.synthetic.main.fragment_create_topic.*
     import kotlinx.coroutines.*
+    import org.json.JSONObject
     import retrofit2.Response
     import javax.inject.Inject
     import kotlin.coroutines.CoroutineContext
@@ -81,39 +79,33 @@
                 //todo habilitar loading
 
                 val job = async{
-                    val a = TopicsRepo.createTopic(
-                        createTopicModel,
-                        {
-                            //todo deshabilitar loading
-                            _topicManagementState.value = TopicManagementState.CreateTopicCompleted
-                            TopicManagementState.TopicCreatedSuccessfully(msg = context.getString(R.string.message_topic_created))
-                        },
-                        {
-                            //todo deshabilitar loading
-                            _topicManagementState.value = TopicManagementState.CreateTopicCompleted
-                            TopicManagementState.RequestErrorReported(requestError = it)
-                        }
-                    )
-
+                    val a = TopicsRepo.createTopic(createTopicModel)
                     println("Done async")
                     a
                 }
 
                 launch(Dispatchers.Main) {
-                    val response: Response<CreateTopicModel> = job.await()
+                    val response: Response<CreateTopicModelResponse> = job.await()
                     println("Done await")
 
                     //todo deshabilitar loading
                     if (response.isSuccessful) {
                         response.body().takeIf { it != null }
                             ?.let {
+                                val c: CreateTopicModelResponse = response.body()!!
+                                println("createtopic" + c.username)
                                 _topicManagementState.value = TopicManagementState.CreateTopicCompleted
                                 TopicManagementState.TopicCreatedSuccessfully(msg = context.getString(R.string.message_topic_created))
                             }
                             ?: run { _topicManagementState.value = TopicManagementState.CreateTopicCompleted
+                                println("Error 1")
                                 //Todo TopicManagementState.RequestErrorReported(requestError = it)
                                 }
                     } else {
+                        println("Error 2")
+                        println("Error 2" + response.code().toString())
+                        println("Error 2" + response.toString().toString())
+                        println("Error 2" + response.errorBody().toString())
                         //Todo TopicManagementState.RequestErrorReported(requestError = it)
                     }
                     println("Done launch")
@@ -128,20 +120,37 @@
 
 
         private fun isFormValid(model: CreateTopicModel) =
-            with(model) { title.isNotEmpty() && content.isNotEmpty() }
+            with(model) { title.isNotEmpty() && raw.isNotEmpty() }
 
         private fun fetchTopicsAndHandleResponse(context: Context?) {
-            context?.let {
-                topicsRepo.getTopics(
-                    { topics ->
-                        _topicManagementState.value =
-                            TopicManagementState.LoadTopicList(topicList = topics)
-                    },
-                    { error ->
-                        _topicManagementState.value =
-                            TopicManagementState.RequestErrorReported(requestError = error)
-                    })
-            }
+                print(context)
+                val job = async {
+                    val a = topicsRepo.getTopics()
+                    println("Done async")
+                    a
+                }
+
+                launch(Dispatchers.Main) {
+                    val response: Response<ListTopic> = job.await()
+                    println("Done await")
+
+                    //todo deshabilitar loading
+                    if (response.isSuccessful) {
+                        response.body().takeIf { it != null }
+                            ?.let {
+                                val topics: ListTopic = response.body()!!
+                                println("La lista de topics es: " +topics.toString())
+                                _topicManagementState.value = TopicManagementState.LoadTopicList(topicList = topics.topic_list.topics)
+                            }
+                            ?: run {
+                                //Todo TopicManagementState.RequestErrorReported(requestError = it)
+                            }
+                    } else {
+                        //Todo TopicManagementState.RequestErrorReported(requestError = it)
+                    }
+                    println("Done launch")
+                }
+                println("Done!")
         }
     }
 

@@ -6,12 +6,16 @@ import android.os.Bundle
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import io.keepcoding.eh_ho.R
+import io.keepcoding.eh_ho.data.repository.LoginRepository
 import io.keepcoding.eh_ho.data.service.RequestError
 import io.keepcoding.eh_ho.domain.SignInModel
 import io.keepcoding.eh_ho.domain.SignUpModel
 import io.keepcoding.eh_ho.data.repository.UserRepo
+import io.keepcoding.eh_ho.di.DaggerApplicationGraph
+import io.keepcoding.eh_ho.di.UtilsModule
 import io.keepcoding.eh_ho.feature.topics.view.ui.TopicsActivity
 import kotlinx.android.synthetic.main.activity_login.*
+import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity(),
     SignInFragment.SignInInteractionListener,
@@ -21,18 +25,27 @@ class LoginActivity : AppCompatActivity(),
         SignInFragment()
     val signUpFragment: SignUpFragment =
         SignUpFragment()
+    @Inject
+    lateinit var userRepo: LoginRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        DaggerApplicationGraph.builder()
+            .utilsModule(UtilsModule(applicationContext))
+            .build()
+            .inject(this)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
         if (savedInstanceState == null) {
             checkSession()
         }
+
+
     }
 
     private fun checkSession() {
-        if (UserRepo.isLogged(this))
+        if (userRepo.isLogged(this))
             launchTopicsActivity()
         else
             onGoToSignIn()
@@ -52,7 +65,7 @@ class LoginActivity : AppCompatActivity(),
 
     override fun onSignIn(signInModel: SignInModel) {
         enableLoading(true)
-        UserRepo.signIn(signInModel,
+        userRepo.signIn(signInModel,
             {
                 enableLoading(false)
                 launchTopicsActivity()
@@ -65,7 +78,7 @@ class LoginActivity : AppCompatActivity(),
 
     override fun onSignUp(signUpModel: SignUpModel) {
         enableLoading(true)
-        UserRepo.signUp(this,
+        userRepo.signUp(this,
             signUpModel,
             {
                 enableLoading(false)

@@ -12,14 +12,15 @@ import io.keepcoding.eh_ho.data.repository.PREFERENCES_SESSION_USERNAME
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
+
 @Module
 class UtilsModule(private val context: Context) {
-
 
     @Singleton
     @Provides
@@ -38,7 +39,7 @@ class UtilsModule(private val context: Context) {
     @Singleton
     @Provides
     fun provideRetrofit(sharedPreferences: SharedPreferences): Retrofit = Retrofit.Builder()
-//        .client(provideOkHttpClient(sharedPreferences))
+        .client(provideOkHttpClient(sharedPreferences))
         .baseUrl("https://${BuildConfig.DiscourseDomain}")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
@@ -59,10 +60,15 @@ fun provideOkHttpClient(sp: SharedPreferences): OkHttpClient {
             return chain.proceed(updatedRequest)
         }
 
+
+
     }
+    val interceptor2 = HttpLoggingInterceptor()
+    interceptor2.setLevel(HttpLoggingInterceptor.Level.BODY)
 
     return OkHttpClient.Builder()
         .addInterceptor(interceptor)
+        .addInterceptor(interceptor2)
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
         .build()

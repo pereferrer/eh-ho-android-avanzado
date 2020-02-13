@@ -17,11 +17,11 @@ import retrofit2.Retrofit
 const val PREFERENCES_SESSION = "session"
 const val PREFERENCES_SESSION_USERNAME = "username"
 
-object UserRepo{
+object UserRepo: LoginRepository{
 
     lateinit var ctx: Context
 
-    fun signIn(
+    override fun signIn(
         signInModel: SignInModel,
         onSuccess: (SignInModel) -> Unit,
         onError: (RequestError) -> Unit
@@ -67,7 +67,7 @@ object UserRepo{
             .add(request)
     }
 
-    fun signUp(
+    override fun signUp(
         context: Context,
         signUpModel: SignUpModel,
         onSuccess: (SignUpModel) -> Unit,
@@ -124,7 +124,7 @@ object UserRepo{
             .add(request)
     }
 
-    fun isLogged(context: Context): Boolean {
+    override fun isLogged(context: Context): Boolean {
         val pref = context.getSharedPreferences(PREFERENCES_SESSION, MODE_PRIVATE)
         val user = pref.getString(PREFERENCES_SESSION_USERNAME, null)
         return user != null

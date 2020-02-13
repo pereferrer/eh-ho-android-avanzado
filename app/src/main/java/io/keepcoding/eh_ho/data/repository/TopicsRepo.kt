@@ -5,125 +5,28 @@ import com.android.volley.NetworkError
 import com.android.volley.Request
 import com.android.volley.ServerError
 import io.keepcoding.eh_ho.R
-import io.keepcoding.eh_ho.data.service.ApiRequestQueue
-import io.keepcoding.eh_ho.data.service.ApiRoutes
-import io.keepcoding.eh_ho.data.service.RequestError
-import io.keepcoding.eh_ho.data.service.UserRequest
-import io.keepcoding.eh_ho.domain.CreateTopicModel
-import io.keepcoding.eh_ho.domain.Topic
+import io.keepcoding.eh_ho.data.service.*
+import io.keepcoding.eh_ho.domain.*
 import org.json.JSONObject
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.create
 
 
 object TopicsRepo: TopicsRepository {
 
     lateinit var ctx: Context
+    lateinit var retroF: Retrofit
 
-    override fun getTopics(
-        onSuccess: (List<Topic>) -> Unit,
-        onError: (RequestError) -> Unit
-    ) {
-        val username = UserRepo.getUsername(ctx)
-        val request = UserRequest(
-            username,
-            Request.Method.GET,
-            ApiRoutes.getTopics(),
-            null,
-            {
-                it?.let {
-                    onSuccess.invoke(
-                        Topic.parseTopics(
-                            it
-                        )
-                    )
-                }
-
-                if (it == null)
-                    onError.invoke(
-                        RequestError(
-                            messageResId = R.string.error_invalid_response
-                        )
-                    )
-            },
-            {
-                it.printStackTrace()
-                if (it is NetworkError)
-                    onError.invoke(
-                        RequestError(
-                            messageResId = R.string.error_network
-                        )
-                    )
-                else
-                    onError.invoke(
-                        RequestError(
-                            it
-                        )
-                    )
-            })
-
-        ApiRequestQueue.getRequestQueue(ctx)
-            .add(request)
+    override suspend fun getTopics(): Response<ListTopic> {
+        val a =    retroF.create(TopicsService::class.java).getTopics()
+        println("" + retroF.toString())
+        return a
     }
 
-    override fun createTopic(
-        model: CreateTopicModel,
-        onSuccess: (CreateTopicModel) -> Unit,
-        onError: (RequestError) -> Unit
-    ) {
-        val username = UserRepo.getUsername(ctx)
-        val request = UserRequest(
-            username,
-            Request.Method.POST,
-            ApiRoutes.createTopic(),
-            model.toJson(),
-            {
-                it?.let {
-                    onSuccess.invoke(model)
-                }
-
-                if (it == null)
-                    onError.invoke(
-                        RequestError(
-                            messageResId = R.string.error_invalid_response
-                        )
-                    )
-            },
-            {
-                it.printStackTrace()
-
-                if (it is ServerError && it.networkResponse.statusCode == 422) {
-                    val body = String(it.networkResponse.data, Charsets.UTF_8)
-                    val jsonError = JSONObject(body)
-                    val errors = jsonError.getJSONArray("errors")
-                    var errorMessage = ""
-
-                    for (i in 0 until errors.length()) {
-                        errorMessage += "${errors[i]} "
-                    }
-
-                    onError.invoke(
-                        RequestError(
-                            it,
-                            message = errorMessage
-                        )
-                    )
-
-                } else if (it is NetworkError)
-                    onError.invoke(
-                        RequestError(
-                            it,
-                            messageResId = R.string.error_network
-                        )
-                    )
-                else
-                    onError.invoke(
-                        RequestError(
-                            it
-                        )
-                    )
-            }
-        )
-
-        ApiRequestQueue.getRequestQueue(ctx)
-            .add(request)
+    override suspend fun createTopic(createTopicModel: CreateTopicModel): Response<CreateTopicModelResponse> {
+        val a =    retroF.create(TopicsService::class.java).loginUserWithCoroutines(createTopicModel)
+        println("" + retroF.toString())
+        return a
     }
 }

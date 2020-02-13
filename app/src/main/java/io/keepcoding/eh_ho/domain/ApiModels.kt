@@ -1,6 +1,10 @@
 package io.keepcoding.eh_ho.domain
 
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 import org.json.JSONObject
+import java.text.SimpleDateFormat
+import java.util.*
 
 data class SignInModel(
     val username: String,
@@ -24,15 +28,26 @@ data class SignUpModel(
 }
 
 data class CreateTopicModel(
+    @Expose
+    @SerializedName("title")
     val title: String,
-    val content: String
+    @Expose
+    @SerializedName("raw")
+    val raw: String
 ) {
-    fun toJson(): JSONObject {
-        return JSONObject()
-            .put("title", title)
-            .put("raw", content)
+    override fun toString(): String {
+        return "CreateTopicModel(title='$title', raw='$raw')"
     }
 }
+
+data class CreateTopicModelResponse(
+    @SerializedName("name")
+    @Expose
+    val name: String,
+    @SerializedName("username")
+    @Expose
+    val username: String
+)
 
 
 data class CreatePostModel(
@@ -47,3 +62,13 @@ data class CreatePostModel(
             .put("raw", raw)
     }
 }
+
+data class ListTopic(
+    @SerializedName("topic_list")
+    val topic_list: TopicListResponse
+)
+
+data class TopicListResponse(
+    @SerializedName("topics")
+    val topics:List<Topic>
+)

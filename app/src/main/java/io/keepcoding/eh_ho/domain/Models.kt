@@ -1,52 +1,23 @@
 package io.keepcoding.eh_ho.domain
 
+import com.google.gson.annotations.SerializedName
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 
 data class Topic(
-    val id: String = UUID.randomUUID().toString(),
+    @SerializedName("id")
+    val id: String,
+    @SerializedName("title")
     val title: String,
-    val date: Date = Date(),
+    @SerializedName("created_at")
+    val fecha:String,
+    @SerializedName("posts_count")
     val posts: Int = 0,
+    @SerializedName("views")
     val views: Int = 0
 ) {
     companion object {
-
-        fun parseTopics(response: JSONObject): List<Topic> {
-            val jsonTopics = response.getJSONObject("topic_list")
-                .getJSONArray("topics")
-
-            val topics = mutableListOf<Topic>()
-
-
-            for (i in 0 until jsonTopics.length()) {
-                val parsedTopic =
-                    parseTopic(
-                        jsonTopics.getJSONObject(i)
-                    )
-                topics.add(parsedTopic)
-            }
-
-            return topics
-        }
-
-        fun parseTopic(jsonObject: JSONObject): Topic {
-            val date = jsonObject.getString("created_at")
-                .replace("Z", "+0000")
-
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
-            val dateFormatted = dateFormat.parse(date) ?: Date()
-
-            return Topic(
-                jsonObject.getInt("id").toString(),
-                jsonObject.getString("title"),
-                dateFormatted,
-                jsonObject.getInt("posts_count"),
-                jsonObject.getInt("views")
-            )
-        }
-
         const val MINUTES_MILLIS = 1000L * 60
         const val HOUR_MILLIS = MINUTES_MILLIS * 60
         const val DAY_MILLIS = HOUR_MILLIS * 24
@@ -54,12 +25,19 @@ data class Topic(
         const val YEAR_MILLIS = MONTH_MILLIS * 12
     }
 
-
     data class TimeOffset(val amount: Int, val unit: Int)
 
     fun getTimeOffset(dateToCompare: Date = Date()): TimeOffset {
+
+        val date = fecha
+            .replace("Z", "+0000")
+
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
+        val dateFormatted = dateFormat.parse(date) ?: Date()
+
+
         val current = dateToCompare.time
-        val diff = current - date.time
+        val diff = current - dateFormatted.time
 
         val years = diff / YEAR_MILLIS
         if (years > 0) return TimeOffset(
