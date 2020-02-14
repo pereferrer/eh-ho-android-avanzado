@@ -72,3 +72,8 @@ data class TopicListResponse(
     @SerializedName("topics")
     val topics:List<Topic>
 )
+
+data class LatestPostRetrofit(
+    @SerializedName("latest_posts")
+    val latest_posts:List<LatestPost>
+)

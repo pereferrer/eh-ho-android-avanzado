@@ -74,9 +74,13 @@ data class Topic(
 }
 
 data class Post(
+    @SerializedName("id")
     val id: String = UUID.randomUUID().toString(),
+    @SerializedName("username")
     val username: String,
+    @SerializedName("cooked")
     val cooked: String,
+    @SerializedName("date")
     val date: Date = Date()
 ) {
     companion object {
@@ -157,13 +161,20 @@ data class Post(
 }
 
 data class LatestPost(
+    @SerializedName("topic_id")
     val id: String = UUID.randomUUID().toString(),
+    @SerializedName("date")
     val date: Date = Date(),
+    @SerializedName("topic_title")
     val topic_title: String,
+    @SerializedName("topic_slug")
     val topic_slug: String,
+    @SerializedName("created_at")
     val created_at:Date = Date(),
+    @SerializedName("post_number")
     val post_number:Int,
-    val score:Int
+    @SerializedName("score")
+    val score:Double
 ) {
     companion object {
 
@@ -200,7 +211,7 @@ data class LatestPost(
                 jsonObject.getString("topic_slug"),
                 dateFormatted,
                 jsonObject.getInt("post_number"),
-                jsonObject.getInt("score")
+                jsonObject.getDouble("score")
             )
         }
     }
@@ -212,7 +223,7 @@ data class LatestPost(
 
     fun getTimeOffset(dateToCompare: Date = Date()): TimeOffset {
         val current = dateToCompare.time
-        val diff = current - date.time
+        val diff = current - created_at.time
 
         val years = diff / Topic.YEAR_MILLIS
         if (years > 0) return TimeOffset(

@@ -10,7 +10,7 @@ data class LatestNewEntity(
     @ColumnInfo(name = "latest_new_topic_slug") val slug: String,
     @ColumnInfo(name = "latest_new_created_at") val date: String,
     @ColumnInfo(name = "latest_new_post_number") val posts: Int,
-    @ColumnInfo(name = "latest_new_score") val score: Int
+    @ColumnInfo(name = "latest_new_score") val score: Double
 )
 
 @Dao
@@ -28,7 +28,7 @@ interface LatestNewDao {
     fun delete(LatestNew: LatestNewEntity)
 }
 
-@Database(entities = [LatestNewEntity::class], version = 2)
+@Database(entities = [LatestNewEntity::class], version = 3)
 abstract class LatestNewsDatabase : RoomDatabase() {
     abstract fun latestNewDao(): LatestNewDao
 }

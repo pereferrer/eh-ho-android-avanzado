@@ -48,7 +48,6 @@
 
         fun onGoToLatestNews(context: Context?){
             _topicManagementState.value = TopicManagementState.OnGoToLatestNews
-            Toast.makeText(context, "Messages clicked", Toast.LENGTH_SHORT).show()
         }
 
         fun onPostSelected(latestPost: LatestPost){

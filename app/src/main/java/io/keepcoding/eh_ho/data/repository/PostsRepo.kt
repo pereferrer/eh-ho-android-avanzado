@@ -8,20 +8,19 @@ import com.android.volley.ServerError
 import io.keepcoding.eh_ho.Database.LatestNewEntity
 import io.keepcoding.eh_ho.Database.LatestNewsDatabase
 import io.keepcoding.eh_ho.R
-import io.keepcoding.eh_ho.data.service.ApiRequestQueue
-import io.keepcoding.eh_ho.data.service.ApiRoutes
-import io.keepcoding.eh_ho.data.service.RequestError
-import io.keepcoding.eh_ho.data.service.UserRequest
-import io.keepcoding.eh_ho.domain.CreatePostModel
-import io.keepcoding.eh_ho.domain.LatestPost
-import io.keepcoding.eh_ho.domain.Post
+import io.keepcoding.eh_ho.data.service.*
+import io.keepcoding.eh_ho.domain.*
 import org.json.JSONObject
+import retrofit2.Response
+import retrofit2.Retrofit
 import kotlin.concurrent.thread
 
 object PostsRepo : PostsRepository{
 
     lateinit var db: LatestNewsDatabase
     lateinit var ctx: Context
+    lateinit var retroF: Retrofit
+
 
     fun getPosts(idPost:String,
                  context: Context,
@@ -71,63 +70,18 @@ object PostsRepo : PostsRepository{
             .add(request)
     }
 
-    override fun getPostsAcrossTopics(onSuccess:(List<LatestPost>) ->Unit,
-                             onError:(RequestError)->Unit)
-    {
+    override suspend fun getPostsAcrossTopics(): Response<LatestPostRetrofit> {
+        if(retroF == null){
+            println("Hola pere")
+        }
+        println("asddsdaassdasa"  + retroF)
 
-        val username = UserRepo.getUsername(ctx)
-        val request = UserRequest(
-            username,
-            Request.Method.GET,
-            ApiRoutes.getPosts(),
-            null,
-            {
-                it?.let {
-                    onSuccess.invoke(
-                        LatestPost.parsePosts(
-                            it
-                        )
-                    )
-
-                    thread {
-                        db.latestNewDao()
-                            .insertAll(
-                                LatestPost.parsePosts(
-                                    it
-                                ).toEntity()
-                            )
-                    }
-                }
-
-
-
-
-                if (it == null)
-                    onError.invoke(
-                        RequestError(
-                            messageResId = R.string.error_invalid_response
-                        )
-                    )
-            },
-            {
-                it.printStackTrace()
-                if (it is NetworkError)
-                    onError.invoke(
-                        RequestError(
-                            messageResId = R.string.error_network
-                        )
-                    )
-                else
-                    onError.invoke(
-                        RequestError(
-                            it
-                        )
-                    )
-            })
-
-        ApiRequestQueue.getRequestQueue(ctx)
-            .add(request)
+        val a =  retroF.create(PostService::class.java).getPostsAcrossTopics()
+        println("He acabat retrofit")
+        return a
     }
+
+
 
     fun createPost(
         context: Context,
