@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import io.keepcoding.eh_ho.R
 import io.keepcoding.eh_ho.domain.LatestPost
-import io.keepcoding.eh_ho.data.repository.PostsRepo
 import io.keepcoding.eh_ho.data.service.RequestError
 import io.keepcoding.eh_ho.feature.topics.latestPosts.view.adapter.LatestNewsAdapter
 import kotlinx.android.synthetic.main.fragment_posts.parentLayout

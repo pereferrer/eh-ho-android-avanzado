@@ -16,8 +16,8 @@ import com.google.android.material.snackbar.Snackbar
 import io.keepcoding.eh_ho.R
 import io.keepcoding.eh_ho.data.service.RequestError
 import io.keepcoding.eh_ho.domain.Topic
-import io.keepcoding.eh_ho.data.repository.TopicsRepo
 import io.keepcoding.eh_ho.feature.topics.view.adapter.TopicsAdapter
+import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_topics.*
 import kotlinx.android.synthetic.main.view_retry.*
 
@@ -79,6 +79,7 @@ class TopicsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
         listener?.onTopicsFragmentResumed()
     }
 

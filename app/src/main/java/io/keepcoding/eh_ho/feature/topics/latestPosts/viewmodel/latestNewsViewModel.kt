@@ -5,12 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.keepcoding.eh_ho.data.repository.PostsRepository
-import io.keepcoding.eh_ho.data.service.RequestError
 import io.keepcoding.eh_ho.domain.LatestPostRetrofit
-import io.keepcoding.eh_ho.domain.ListTopic
-import io.keepcoding.eh_ho.domain.SignInModel
 import io.keepcoding.eh_ho.feature.topics.latestPosts.view.state.LatestPostManagementState
-import io.keepcoding.eh_ho.feature.topics.view.state.TopicManagementState
 import kotlinx.coroutines.*
 import retrofit2.Response
 import javax.inject.Inject

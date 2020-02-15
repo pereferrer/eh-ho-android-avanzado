@@ -7,8 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import io.keepcoding.eh_ho.R
 import io.keepcoding.eh_ho.domain.Topic
 import io.keepcoding.eh_ho.feature.topics.view.viewholder.TopicHolder
-import kotlinx.android.synthetic.main.item_topic.view.*
-import java.util.*
 
 class TopicsAdapter(
     private val topicClickListener: ((Topic) -> Unit)? = null

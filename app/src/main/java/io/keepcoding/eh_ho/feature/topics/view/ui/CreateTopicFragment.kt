@@ -4,12 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import com.google.android.material.snackbar.Snackbar
 import io.keepcoding.eh_ho.feature.LoadingDialogFragment
 import io.keepcoding.eh_ho.R
 import io.keepcoding.eh_ho.domain.CreateTopicModel
-import io.keepcoding.eh_ho.data.service.RequestError
-import io.keepcoding.eh_ho.data.repository.TopicsRepo
 import kotlinx.android.synthetic.main.fragment_create_topic.*
 
 const val TAG_LOADING_DIALOG = "loading_dialog"

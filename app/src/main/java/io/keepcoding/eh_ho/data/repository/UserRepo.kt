@@ -12,7 +12,6 @@ import io.keepcoding.eh_ho.data.service.ApiRoutes
 import io.keepcoding.eh_ho.data.service.RequestError
 import io.keepcoding.eh_ho.domain.SignInModel
 import io.keepcoding.eh_ho.domain.SignUpModel
-import retrofit2.Retrofit
 
 const val PREFERENCES_SESSION = "session"
 const val PREFERENCES_SESSION_USERNAME = "username"

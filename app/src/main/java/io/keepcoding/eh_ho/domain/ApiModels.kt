@@ -3,8 +3,6 @@ package io.keepcoding.eh_ho.domain
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import org.json.JSONObject
-import java.text.SimpleDateFormat
-import java.util.*
 
 data class SignInModel(
     val username: String,

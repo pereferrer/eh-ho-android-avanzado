@@ -10,7 +10,6 @@ import io.keepcoding.eh_ho.data.repository.LoginRepository
 import io.keepcoding.eh_ho.data.service.RequestError
 import io.keepcoding.eh_ho.domain.SignInModel
 import io.keepcoding.eh_ho.domain.SignUpModel
-import io.keepcoding.eh_ho.data.repository.UserRepo
 import io.keepcoding.eh_ho.di.DaggerApplicationGraph
 import io.keepcoding.eh_ho.di.UtilsModule
 import io.keepcoding.eh_ho.feature.topics.view.ui.TopicsActivity

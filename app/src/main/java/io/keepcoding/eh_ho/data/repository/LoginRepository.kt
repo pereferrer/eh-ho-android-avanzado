@@ -4,7 +4,6 @@ import android.content.Context
 import io.keepcoding.eh_ho.data.service.RequestError
 import io.keepcoding.eh_ho.domain.SignInModel
 import io.keepcoding.eh_ho.domain.SignUpModel
-import retrofit2.Response
 
 interface LoginRepository {
 

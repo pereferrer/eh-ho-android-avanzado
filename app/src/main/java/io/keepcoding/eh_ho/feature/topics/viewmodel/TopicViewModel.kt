@@ -9,12 +9,9 @@
     import io.keepcoding.eh_ho.data.repository.TopicsRepo
     import io.keepcoding.eh_ho.data.repository.TopicsRepository
     import io.keepcoding.eh_ho.data.repository.UserRepo
-    import io.keepcoding.eh_ho.data.service.RequestError
     import io.keepcoding.eh_ho.domain.*
     import io.keepcoding.eh_ho.feature.topics.view.state.TopicManagementState
-    import kotlinx.android.synthetic.main.fragment_create_topic.*
     import kotlinx.coroutines.*
-    import org.json.JSONObject
     import retrofit2.Response
     import javax.inject.Inject
     import kotlin.coroutines.CoroutineContext
@@ -75,7 +72,6 @@
 
         fun onCreateTopicOptionClicked(context: Context, createTopicModel: CreateTopicModel) {
             if (isFormValid(model = createTopicModel)) {
-                //todo habilitar loading
 
                 val job = async{
                     val a = TopicsRepo.createTopic(createTopicModel)

@@ -13,8 +13,10 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
 import io.keepcoding.eh_ho.*
+import io.keepcoding.eh_ho.R.string
+import io.keepcoding.eh_ho.R.string.create_topic
+import io.keepcoding.eh_ho.R.string.topics
 import io.keepcoding.eh_ho.feature.posts.EXTRA_TOPIC_ID
 import io.keepcoding.eh_ho.feature.posts.EXTRA_TOPIC_TITLE
 import io.keepcoding.eh_ho.feature.posts.PostsActivity
@@ -31,7 +33,7 @@ import io.keepcoding.eh_ho.feature.topics.latestPosts.view.ui.LatestNewsFragment
 import io.keepcoding.eh_ho.feature.topics.latestPosts.viewmodel.LatestNewsViewModel
 import io.keepcoding.eh_ho.feature.topics.view.state.TopicManagementState
 import io.keepcoding.eh_ho.feature.topics.viewmodel.TopicViewModel
-import kotlinx.android.synthetic.main.fragment_create_topic.*
+import kotlinx.android.synthetic.main.content_main.*
 import javax.inject.Inject
 
 const val TRANSACTION_CREATE_TOPIC = "create_topic"
@@ -119,9 +121,11 @@ class TopicsActivity : AppCompatActivity(),
         when (item.itemId) {
             R.id.nav_topics -> {
                 topicViewModel.onGoToTopics(this)
+                AppTitle.setText(topics);
             }
             R.id.nav_latest_news -> {
                 topicViewModel.onGoToLatestNews(this)
+                AppTitle.setText(string.latest_news);
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -145,6 +149,7 @@ class TopicsActivity : AppCompatActivity(),
     }
 
     override fun onTopicsFragmentResumed() {
+        AppTitle.setText(topics);
         topicViewModel.onTopicsFragmentResumed(context = this)
     }
 
@@ -157,6 +162,7 @@ class TopicsActivity : AppCompatActivity(),
     }
 
     private fun onGoToTopics() {
+        AppTitle.setText(topics);
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer,
                 TopicsFragment(),
@@ -167,6 +173,7 @@ class TopicsActivity : AppCompatActivity(),
     }
 
     private fun onGoToLatestNews(){
+        AppTitle.setText(R.string.latest_news);
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer,
                 LatestNewsFragment(),
@@ -177,6 +184,7 @@ class TopicsActivity : AppCompatActivity(),
     }
 
     override fun onTopicCreated() {
+        AppTitle.setText(topics);
         supportFragmentManager.popBackStack()
     }
 
@@ -262,6 +270,7 @@ class TopicsActivity : AppCompatActivity(),
     }
 
     private fun navigateToCreateTopic(){
+        AppTitle.setText(create_topic);
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer,
                 CreateTopicFragment()

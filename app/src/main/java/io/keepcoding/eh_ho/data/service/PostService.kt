@@ -1,7 +1,6 @@
 package io.keepcoding.eh_ho.data.service
 
 import io.keepcoding.eh_ho.domain.LatestPostRetrofit
-import io.keepcoding.eh_ho.domain.ListTopic
 import retrofit2.Response
 import retrofit2.http.GET
 

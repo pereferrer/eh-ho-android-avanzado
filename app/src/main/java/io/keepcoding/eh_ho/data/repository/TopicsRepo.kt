@@ -1,16 +1,10 @@
 package io.keepcoding.eh_ho.data.repository
 
 import android.content.Context
-import com.android.volley.NetworkError
-import com.android.volley.Request
-import com.android.volley.ServerError
-import io.keepcoding.eh_ho.R
 import io.keepcoding.eh_ho.data.service.*
 import io.keepcoding.eh_ho.domain.*
-import org.json.JSONObject
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.create
 
 
 object TopicsRepo: TopicsRepository {

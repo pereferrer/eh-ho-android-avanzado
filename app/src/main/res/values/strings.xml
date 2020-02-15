@@ -33,6 +33,12 @@
     <string name="title_create_post">Create post</string>
     <string name="close">close</string>
     <string name="message_topic_created">Topic created succesfully</string>
+    <string name="eh_ho">Eh-Ho</string>
+    <string name="developed_by_pere_ferrer_keepcoding">Developed By Pere Ferrer @Keepcoding</string>
+    <string name="latest_news">Latest news</string>
+    <string name="posts">Posts</string>
+    <string name="topics">Topics</string>
+    <string name="create_topic">Create topic</string>
 
     <plurals name="years">
         <item quantity="one">%d year</item>

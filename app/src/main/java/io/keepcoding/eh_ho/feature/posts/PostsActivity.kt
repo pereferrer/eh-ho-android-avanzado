@@ -25,6 +25,8 @@ class PostsActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_posts)
 
+        setTitle(R.string.posts)
+
         topicId = intent.getStringExtra(EXTRA_TOPIC_ID)
         topicTitle = intent.getStringExtra(EXTRA_TOPIC_TITLE)
 

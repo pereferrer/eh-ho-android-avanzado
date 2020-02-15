@@ -13,7 +13,6 @@ import io.keepcoding.eh_ho.domain.*
 import org.json.JSONObject
 import retrofit2.Response
 import retrofit2.Retrofit
-import kotlin.concurrent.thread
 
 object PostsRepo : PostsRepository{
 
@@ -157,7 +156,7 @@ private fun LatestNewEntity.toModel(): LatestPost = LatestPost(
     topic_title = title,
     topic_slug = slug,
     post_number = posts,
-    score = score //Todo falta la fecha create at
+    score = score
 )
 
 

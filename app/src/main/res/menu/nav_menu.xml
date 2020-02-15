@@ -5,10 +5,10 @@
         <item
             android:id="@+id/nav_topics"
             android:icon="@drawable/ic_topics"
-            android:title="Topics"/>
+            android:title="@string/topics"/>
         <item
             android:id="@+id/nav_latest_news"
             android:icon="@drawable/ic_latest_news"
-            android:title="Latest news"/>
+            android:title="@string/latest_news"/>
     </group>
 </menu>
